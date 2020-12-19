@@ -45,7 +45,7 @@ const Canvas = () => {
         visible={isButtonVisible}
         onClick={changeFill}
         coords={buttonCoords}
-      >Click me</ButtonEl>
+      >Change color</ButtonEl>
     </Fragment>
   );
 };
