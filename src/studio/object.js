@@ -31,7 +31,22 @@ const OFFSET = 10;
     }
   };
 
-  fabric.util.object.extend(fabric.Object.prototype, {
+  fabric.CustomObject = fabric.util.createClass(fabric.Rect, {
+    initialize: function(options) {
+      options = {
+        ...options,
+        width: 200,
+        height: 200,
+        fill: randomcolor(),
+        borderColor: 'black',
+        padding: 10,
+        margin: 10
+      };
+
+      this.setControlsVisibility(CONTROLS_VISIBILITY);
+
+      this.callSuper('initialize', options);
+    },
     _drawControl: function(control, ctx, methodName, left, top) {
       if (!this.isControlVisible(control)) {
         return;
@@ -108,25 +123,6 @@ const OFFSET = 10;
         };
       }
     },
-  });
-
-  fabric.CustomObject = fabric.util.createClass(fabric.Rect, {
-    initialize: function(options) {
-
-      options = {
-        ...options,
-        width: 200,
-        height: 200,
-        fill: randomcolor(),
-        borderColor: 'black',
-        padding: 10,
-        margin: 10
-      };
-
-      this.setControlsVisibility(CONTROLS_VISIBILITY);
-
-      this.callSuper('initialize', options);
-    }
   })
 })();
 

@@ -1,4 +1,4 @@
-import React, { Fragment, memo, useState, useEffect } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import useCanvas from './../hooks/useCanvas';
 
@@ -39,14 +39,14 @@ const Canvas = () => {
   }, [activeObject]);
 
   return (
-    <Fragment>
+    <>
       <CanvasComponent canvasRef={canvasRef} />
       <ButtonEl
         visible={isButtonVisible}
         onClick={changeFill}
         coords={buttonCoords}
       >Change color</ButtonEl>
-    </Fragment>
+    </>
   );
 };
 
