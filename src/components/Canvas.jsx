@@ -1,6 +1,7 @@
 import React, { memo, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import useCanvas from './../hooks/useCanvas';
+import Button from './Button';
 
 const CanvasEl = styled.canvas`
     bottom: 0;
@@ -9,13 +10,6 @@ const CanvasEl = styled.canvas`
     right: 0;
     top: 0;
     z-index: 888;
-`;
-
-const ButtonEl = styled.button`
-    position: absolute;
-    ${props => props.coords};
-    display: ${props => props.visible ? 'block' : 'none'};
-    z-index: 889;
 `;
 
 const CanvasComponent = memo(({ canvasRef }) => <CanvasEl ref={canvasRef} />);
@@ -41,11 +35,12 @@ const Canvas = () => {
   return (
     <>
       <CanvasComponent canvasRef={setRef} />
-      <ButtonEl
+      <Button
         visible={isButtonVisible}
         onClick={changeFill}
         coords={buttonCoords}
-      >Change color</ButtonEl>
+        label="Change color"
+      />
     </>
   );
 };
