@@ -21,7 +21,7 @@ const ButtonEl = styled.button`
 const CanvasComponent = memo(({ canvasRef }) => <CanvasEl ref={canvasRef} />);
 
 const Canvas = () => {
-  const [canvasRef, activeObject, changeFill] = useCanvas();
+  const { setRef, activeObject, changeFill } = useCanvas();
   const [isButtonVisible, setIsButtonVisible] = useState(false);
   const [buttonCoords, setButtonCoords] = useState({ top: 0, left: 0 });
 
@@ -40,7 +40,7 @@ const Canvas = () => {
 
   return (
     <>
-      <CanvasComponent canvasRef={canvasRef} />
+      <CanvasComponent canvasRef={setRef} />
       <ButtonEl
         visible={isButtonVisible}
         onClick={changeFill}

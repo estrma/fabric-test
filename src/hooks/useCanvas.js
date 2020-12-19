@@ -18,14 +18,10 @@ const useCanvas = () => {
       height: window.innerHeight
     });
 
-    canvas.on('mouse:down', e => {
-      // right click
-      if (e.button === 3) {
-        if (e.target) {
-          canvas.setActiveObject(e.target);
-        }
-
-        setActiveObject(e.target);
+    canvas.on('mouse:down', ({ target, button }) => {
+      if (button === 3) {
+        target && canvas.setActiveObject(target);
+        setActiveObject(target);
         canvas.renderAll();
       } else {
         setActiveObject(null);
@@ -40,18 +36,18 @@ const useCanvas = () => {
     canvas.renderAll();
   }, [canvas]);
 
-  const changeFill = () => {
-    if (activeObject) {
-      activeObject.set('fill', randomcolor());
-      canvas.renderAll();
-    }
-  };
+  const changeFill = useCallback(() => {
+    if (!activeObject) return;
+    activeObject.set('fill', randomcolor());
+    canvas.renderAll();
+
+  }, [activeObject, canvas]);
 
   const setRef = useCallback(node => {
     ref.current = node;
-  });
+  }, [ref]);
 
-  return [setRef, activeObject, changeFill];
+  return { setRef, activeObject, changeFill };
 };
 
 export default useCanvas;
