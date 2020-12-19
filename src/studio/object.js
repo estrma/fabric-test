@@ -80,7 +80,7 @@ const OFFSET = 10;
     _setCornerCoords: function() {
       let coords = this.oCoords,
         newTheta = fabric.util.degreesToRadians(45 - this.angle),
-        cornerHypotenuse = this.cornerSize * 0.707106 * 3,
+        cornerHypotenuse = this.cornerSize * 0.707106 * 2.4,
         cosHalfOffset = cornerHypotenuse * fabric.util.cos(newTheta),
         sinHalfOffset = cornerHypotenuse * fabric.util.sin(newTheta),
         x, y;
