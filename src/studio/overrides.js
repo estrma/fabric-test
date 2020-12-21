@@ -1,5 +1,7 @@
 import { fabric } from 'fabric';
 
+const OFFSET = 10;
+
 export const getActionFromCorner = function(alreadySelected, corner) {
   if (!corner || !alreadySelected) {
     return 'drag';
@@ -31,52 +33,49 @@ export const drawControl = function(control, ctx, methodName, left, top) {
     return;
   }
 
-  const OFFSET = 10;
   const size = this.cornerSize;
   const l = left + size / 2;
   const t = top + size / 2;
 
-  if (control === 'tl') {
+  const drawCircle = (x, y) => {
     ctx.beginPath();
-    ctx.arc(l - OFFSET, t - OFFSET, size / 2, 0, 2 * Math.PI, false);
+    ctx.arc(x, y, size / 2, 0, 2 * Math.PI, false);
     ctx[methodName]();
     ctx.strokeStyle = 'black';
     ctx.stroke();
+  };
+
+  const drawTriangle = (x1, y1, x2, y2, x3, y3) => {
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.lineTo(x3, y3);
+    ctx.closePath();
+    ctx.strokeStyle = 'black';
+    ctx.stroke();
+  };
+
+  if (control === 'tl') {
+    drawCircle(l - OFFSET, t - OFFSET);
   }
 
   if (control === 'br') {
-    ctx.beginPath();
-    ctx.arc(l + OFFSET, t + OFFSET, size / 2, 0, 2 * Math.PI, false);
-    ctx[methodName]();
-    ctx.strokeStyle = 'black';
-    ctx.stroke();
+    drawCircle(l + OFFSET, t + OFFSET)
   }
 
   if (control === 'bl') {
-    ctx.beginPath();
-    ctx.moveTo(l - size, t + size);
-    ctx.lineTo(l - OFFSET, t);
-    ctx.lineTo(l, t + OFFSET);
-    ctx.closePath();
-    ctx.strokeStyle = 'black';
-    ctx.stroke();
+    drawTriangle(l - size, t + size, l - OFFSET, t, l, t + OFFSET);
   }
 
   if (control === 'tr') {
-    ctx.beginPath();
-    ctx.moveTo(l + size, t - size);
-    ctx.lineTo(l, t - OFFSET);
-    ctx.lineTo(l + OFFSET, t);
-    ctx.closePath();
-    ctx.strokeStyle = 'black';
-    ctx.stroke();
+    drawTriangle(l + size, t - size, l, t - OFFSET, l + OFFSET, t);
   }
-}
+};
 
 export const setCornerCoords = function() {
   let coords = this.oCoords,
     newTheta = fabric.util.degreesToRadians(45 - this.angle),
-    cornerHypotenuse = this.cornerSize * 0.707106 * 2.4,
+    cornerHypotenuse = this.cornerSize * 0.707106,
     cosHalfOffset = cornerHypotenuse * fabric.util.cos(newTheta),
     sinHalfOffset = cornerHypotenuse * fabric.util.sin(newTheta),
     x, y;
@@ -86,20 +85,20 @@ export const setCornerCoords = function() {
     y = coords[point].y;
     coords[point].corner = {
       tl: {
-        x: x - sinHalfOffset,
-        y: y - cosHalfOffset
+        x: x - sinHalfOffset - OFFSET,
+        y: y - cosHalfOffset - OFFSET
       },
       tr: {
-        x: x + cosHalfOffset,
-        y: y - sinHalfOffset
+        x: x + cosHalfOffset + OFFSET,
+        y: y - sinHalfOffset - OFFSET
       },
       bl: {
-        x: x - cosHalfOffset,
-        y: y + sinHalfOffset
+        x: x - cosHalfOffset - OFFSET,
+        y: y + sinHalfOffset + OFFSET
       },
       br: {
-        x: x + sinHalfOffset,
-        y: y + cosHalfOffset
+        x: x + sinHalfOffset + OFFSET,
+        y: y + cosHalfOffset + OFFSET
       }
     };
   }

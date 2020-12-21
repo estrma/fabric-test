@@ -27,8 +27,8 @@ import {
 
       this.callSuper('initialize', options);
 
-      this._drawControl = drawControl.bind(this)
-      this._setCornerCoords = setCornerCoords.bind(this)
+      this._drawControl = drawControl.bind(this);
+      this._setCornerCoords = setCornerCoords.bind(this);
     },
   })
 })();
